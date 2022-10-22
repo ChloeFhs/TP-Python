@@ -64,34 +64,35 @@ def get_forecast(location: dict):
 
 def get_forecast_details_by_day(forecast_json):
     #Initialisation des variables 
-    sum_temp=0
-    # day = (date.fromtimestamp(forecast_json["list"][2]["dt"])).day
-        
+    sum_temp=0        
     measure_count=0
     forecast_details=[]
+    day = (date.fromtimestamp(forecast_json["list"][0]["dt"]))
 
 
     #Boucle sur les températures
-
-    day = (date.fromtimestamp(forecast_json["list"][0]["dt"]))
-    print(day)
     for i in range (0, len(forecast_json["list"])):
 
+        #Si le day est le même que celui traité,  cumul des températures dans une variable et incrémentation du comptage de mesures
         if (day == (date.fromtimestamp(forecast_json["list"][i]["dt"]))):
-            # for forecast_json["dt"] in  forecast_json["list"] :
             sum_temp += forecast_json["list"][i]["main"]["temp"]
             measure_count = measure_count +1
 
+        #Sinon, calcul de la valeur moyenne, réinitialisation des variables et passage au jour d'après
         else:
             average_temp = round((sum_temp / measure_count),1)
+
+            #ajout de l'entrée dans le dictionnaire et du dictionnaire dans la liste
             forecast_day = {"date = ": day.strftime("%Y-%m-%d"), "temp" : average_temp,"measure_count" : measure_count}
             forecast_details.append(forecast_day)
+
+            #Le day prend la valeur du nouveau jour et on remet les variables à la bonne valeur
             day=(date.fromtimestamp(forecast_json["list"][i]["dt"]))
             sum_temp=  forecast_json["list"][i]["main"]["temp"]
             measure_count= 1
 
 
-        #Pour le dernier, il rentre pas dans le else donc on l'ajouter ici 
+        #Pour le dernier measure_count, il ne rentre jamais dans le else donc on l'ajoute ici 
         if i == len(forecast_json["list"])-1:
             forecast_day = {"date ": day.strftime("%Y-%m-%d"), "temp" : average_temp,"measure_count" : measure_count}
             forecast_details.append(forecast_day)
