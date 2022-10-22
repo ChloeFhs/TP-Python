@@ -113,4 +113,4 @@ def get_min_max(forecast_json):
 
     #Ajout au final json des min et max 
     final_json["forecast_min_temp"] = min(min_list)
-    final_json["forecast_max_temp"] = min(max_list)
+    final_json["forecast_max_temp"] = max(max_list)
