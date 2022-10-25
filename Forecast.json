@@ -1,0 +1,37 @@
+{
+  "forecast_location": "Mazières De Touraine(FR)",
+  "forecast_min_temp": 11.57,
+  "forecast_max_temp": 25.4,
+  "forecast_details": [
+    {
+      "date": "2022-10-22",
+      "temp": 19.8,
+      "measure_count": 3
+    },
+    {
+      "date": "2022-10-23",
+      "temp": 18.5,
+      "measure_count": 8
+    },
+    {
+      "date": "2022-10-24",
+      "temp": 16.6,
+      "measure_count": 8
+    },
+    {
+      "date": "2022-10-25",
+      "temp": 16.7,
+      "measure_count": 8
+    },
+    {
+      "date": "2022-10-26",
+      "temp": 17.6,
+      "measure_count": 8
+    },
+    {
+      "date": "2022-10-27",
+      "temp": 17.6,
+      "measure_count": 5
+    }
+  ]
+}

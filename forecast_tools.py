@@ -1,7 +1,8 @@
+from encodings import utf_8
 import string
 import requests
 from datetime import date
-
+import json
 
 
 API_key="fece147fbfe5d6faef2345aa1252676b"
@@ -24,19 +25,21 @@ def get_location(city_name: string, country_code: string,):
 
 
     #Si plusieurs résultats et villes dans différents états:
-    if (len(json_loc) > 1) and (json_loc[0]["state"] != json_loc[1]["state"]):
+    if (len(json_loc) > 1) and ("state" in json_loc[0]) :
 
-        state = []
+        if (json_loc[0]["state"] != json_loc[1]["state"]):
+            state = []
 
-        #on crée une liste de choix de "state" à proposer à l'utilisateur 
-        for i in range (len(json_loc)):
-                state.append(json_loc[i]["state"])
-        state_choosen = input(f"Veuillez précisez l'état parmi : {state} \n")
+            #on crée une liste de choix de "state" à proposer à l'utilisateur 
+            for i in range (len(json_loc)):
+                    state.append(json_loc[i]["state"])
+            state_choosen = input(f"Veuillez précisez l'état parmi : {state} \n")
 
-        #On relance la requête en précisant l'état recherché, et on limite la réponse à 1
-        base_url_geo = f"{base_url}geo/1.0/direct?q={city_name},{state_choosen},{country_code}&limit=1&appid={API_key}"
-        answer_geo = requests.get(base_url_geo)
-        json_loc = answer_geo.json()
+            #On relance la requête en précisant l'état recherché, et on limite la réponse à 1
+            base_url_geo = f"{base_url}geo/1.0/direct?q={city_name},{state_choosen},{country_code}&limit=1&appid={API_key}"
+            answer_geo = requests.get(base_url_geo)
+            json_loc = answer_geo.json()
+
 
     #Récupération des coordonnées 
     lat_searched = json_loc[0]['lat']
@@ -83,7 +86,7 @@ def get_forecast_details_by_day(forecast_json):
             average_temp = round((sum_temp / measure_count),1)
 
             #ajout de l'entrée dans le dictionnaire et du dictionnaire dans la liste
-            forecast_day = {"date = ": day.strftime("%Y-%m-%d"), "temp" : average_temp,"measure_count" : measure_count}
+            forecast_day = {"date": day.strftime("%Y-%m-%d"), "temp" : average_temp,"measure_count" : measure_count}
             forecast_details.append(forecast_day)
 
             #Le day prend la valeur du nouveau jour et on remet les variables à la bonne valeur
@@ -94,7 +97,7 @@ def get_forecast_details_by_day(forecast_json):
 
         #Pour le dernier measure_count, il ne rentre jamais dans le else donc on l'ajoute ici 
         if i == len(forecast_json["list"])-1:
-            forecast_day = {"date ": day.strftime("%Y-%m-%d"), "temp" : average_temp,"measure_count" : measure_count}
+            forecast_day = {"date": day.strftime("%Y-%m-%d"), "temp" : average_temp,"measure_count" : measure_count}
             forecast_details.append(forecast_day)
 
     final_json["forecast_details"]=forecast_details
@@ -114,3 +117,7 @@ def get_min_max(forecast_json):
     #Ajout au final json des min et max 
     final_json["forecast_min_temp"] = min(min_list)
     final_json["forecast_max_temp"] = max(max_list)
+
+def create_json_file(final_json_built):
+    with open('Forecast.json', 'w', encoding="utf_8") as file:
+        json.dump(final_json_built, file, indent=2,ensure_ascii=False)
