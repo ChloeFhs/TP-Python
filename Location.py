@@ -4,6 +4,7 @@ class Location:
     def __init__(self, city_name, country_code):
         self.city = city_name
         self.country_code = country_code
+        self.state =''
     
     def get_coordinates(self):
         base_url_geo = f"{ft.base_url}geo/1.0/direct?q={city_name},{country_code}&limit=5&appid={ft.API_key}"
@@ -31,7 +32,7 @@ class Location:
                 state_choosen = input(f"Veuillez précisez l'état parmi : {state} \n")
 
                 #On relance la requête en précisant l'état recherché, et on limite la réponse à 1
-                base_url_geo = f"{ft.base_url}geo/1.0/direct?q={city_name},{state_choosen},{country_code}&limit=1&appid={ft.API_key}"
+                base_url_geo = f"{ft.base_url}geo/1.0/direct?q={self.city},{self.state},{self.country_code}&limit=1&appid={ft.API_key}"
                 answer_geo = ft.requests.get(base_url_geo)
                 json_loc = answer_geo.json()
 

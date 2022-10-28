@@ -45,12 +45,16 @@ def get_location(city_name: string, country_code: string,):
     lat_searched = json_loc[0]['lat']
     lon_searched = json_loc[0]["lon"]
 
+    #création d'un dictionnaire pour "ranger" les coordonnées 
+    result = {"lat":lat_searched, "lon":lon_searched}
 
     #Ajout au final json 
-    final_json["forecast_location"] = (f"{city_name}({country_code})")
+    if state_choosen in locals():
+        final_json["forecast_location"] = (f"{city_name}, {state_choosen} ({country_code})")
+    else : 
+        final_json["forecast_location"] = (f"{city_name}({country_code})")
 
 
-    result = {"lat":lat_searched, "lon":lon_searched}
     return result
 
 
@@ -61,7 +65,7 @@ def get_forecast(location: dict):
     url_forecast =f"{base_url}data/2.5/forecast?lat={lat}&lon={lon}&appid={API_key}&units=metric"
     answer = requests.get(url_forecast)
     if answer.status_code != 200 :
-        raise Exception("Something went wrong")
+        raise Exception("Something went wrong....")
     return answer.json()
 
 
@@ -119,5 +123,5 @@ def get_min_max(forecast_json):
     final_json["forecast_max_temp"] = max(max_list)
 
 def create_json_file(final_json_built):
-    with open('Forecast.json', 'w', encoding="utf_8") as file:
+    with open(f'Forecast.json', 'w', encoding="utf_8") as file:
         json.dump(final_json_built, file, indent=2,ensure_ascii=False)
