@@ -1,16 +1,23 @@
-import forecast_tools as ft
+import requests
 
 
 class Location:
+    """This class creates a location. A location is built
+    with a city and a country code."""
 
     def __init__(self, city_name, country_code):
         self.city = city_name
         self.country_code = country_code
         self.state = ''
+        self.API_key = "fece147fbfe5d6faef2345aa1252676b"
+        self.base_url = "http://api.openweathermap.org/"
 
     def get_coordinates(self):
-        base_url_geo = f"{ft.base_url}geo/1.0/direct?q={self.city},{self.country_code}&limit=5&appid={ft.API_key}"
-        answer_geo = ft.requests.get(base_url_geo)
+        """The method get_coordinates() returns a dictionnary containing the
+        latitude ["lat"] and longitude ["lon"] of the location. """
+
+        base_url_geo = f"{self.base_url}geo/1.0/direct?q={self.city},{self.country_code}&limit=5&appid={self.API_key}"
+        answer_geo = requests.get(base_url_geo)
         json_loc = answer_geo.json()
 
         # Cas où la ville n'existe pas, on demande à l'utilisateur
@@ -18,8 +25,8 @@ class Location:
         while len(json_loc) == 0:
             self.city = input("La ville que vous souhaitez n'existe pas. Entrez la ville\n")
             self.country_code = input("Entrez le code du pays (ex: FR, US...)\n")
-            base_url_geo = f"{ft.base_url}geo/1.0/direct?q={self.city},{self.country_code}&limit=5&appid={ft.API_key}"
-            answer_geo = ft.requests.get(base_url_geo)
+            base_url_geo = f"{self.base_url}geo/1.0/direct?q={self.city},{self.country_code}&limit=5&appid={self.API_key}"
+            answer_geo = requests.get(base_url_geo)
             json_loc = answer_geo.json()
 
         # Si plusieurs résultats et villes dans différents états:
@@ -35,8 +42,8 @@ class Location:
                 self.state = input(f"Veuillez précisez l'état parmi : {list_state} \n")
 
                 # On relance la requête en précisant l'état recherché, et on limite la réponse à 1
-                base_url_geo = f"{ft.base_url}geo/1.0/direct?q={self.city},{self.state},{self.country_code}&limit=1&appid={ft.API_key}"
-                answer_geo = ft.requests.get(base_url_geo)
+                base_url_geo = f"{self.base_url}geo/1.0/direct?q={self.city},{self.state},{self.country_code}&limit=1&appid={self.API_key}"
+                answer_geo = requests.get(base_url_geo)
                 json_loc = answer_geo.json()
 
         # Récupération des coordonnées
@@ -48,3 +55,11 @@ class Location:
 
         result = {"lat": lat_searched, "lon": lon_searched}
         return result
+
+    def to_string(self):
+        '''Returns a string describing the location'''
+        
+        if len(self.state) > 0:
+            return f"{self.city}, {self.state} ({self.country_code})"
+        else:
+            return f"{self.city} ({self.country_code})"
