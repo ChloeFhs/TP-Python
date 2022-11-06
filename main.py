@@ -12,6 +12,4 @@ ft.get_min_max(forecast_full)
 
 print(ft.get_forecast_details_by_day(forecast_full))
 
-
-
 ft.create_json_file(ft.final_json)

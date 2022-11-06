@@ -1,37 +1,37 @@
 {
-  "forecast_location": "Manchester(US)",
-  "forecast_min_temp": 1.42,
-  "forecast_max_temp": 17.07,
+  "forecast_location": "Tours(FR)",
+  "forecast_min_temp": 5.9,
+  "forecast_max_temp": 16.65,
   "forecast_details": [
     {
-      "date": "2022-10-26",
-      "temp": 7.3,
-      "measure_count": 4
+      "date": "2022-11-03",
+      "temp": 10.4,
+      "measure_count": 1
     },
     {
-      "date": "2022-10-27",
-      "temp": 8.1,
+      "date": "2022-11-04",
+      "temp": 10.6,
       "measure_count": 8
     },
     {
-      "date": "2022-10-28",
-      "temp": 8.6,
+      "date": "2022-11-05",
+      "temp": 9.3,
       "measure_count": 8
     },
     {
-      "date": "2022-10-29",
+      "date": "2022-11-06",
       "temp": 10.2,
       "measure_count": 8
     },
     {
-      "date": "2022-10-30",
-      "temp": 11.4,
+      "date": "2022-11-07",
+      "temp": 12.5,
       "measure_count": 8
     },
     {
-      "date": "2022-10-31",
-      "temp": 11.4,
-      "measure_count": 4
+      "date": "2022-11-08",
+      "temp": 12.5,
+      "measure_count": 7
     }
   ]
 }
